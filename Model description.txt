@@ -1,0 +1,5 @@
+Model description:
+
+rbc_v4b2: full model
+
+rbc_v5_v0, rbc_v5_v1: stripped down version with Y being the only observable variable, difference being whether noise has random walk or not.
