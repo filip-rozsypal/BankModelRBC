@@ -327,7 +327,7 @@ end;
 % 
 
 estimation(datafile='DSGE_DATA_2025_10_30_v2', mode_compute=5,
-    first_obs=1, diffuse_filter, mh_nblocks = 1, mh_replic = 15000,
+    first_obs=1, diffuse_filter, kalman_algo = 4,mh_nblocks = 1, mh_replic = 15000,
     optim=('TolFun',1e-7), irf=16,nobs = 99) y z c k a a_innovation;
 % 
     shock_decomposition(diffuse_filter) z a 

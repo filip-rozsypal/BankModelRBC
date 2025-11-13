@@ -186,7 +186,7 @@ end;
 
 
 calib_smoother(datafile='DSGE_DATA_2025_10_30_v2',
-    first_obs=2, diffuse_filter,kalman_algo = 3,nobs =99) z y c a a_innovation;
+    first_obs=2, diffuse_filter,kalman_algo = 4,nobs =99) z y c a a_innovation;
 
 initial_condition_decomposition  z;
 shock_decomposition(diffuse_filter) z a 

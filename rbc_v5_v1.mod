@@ -190,7 +190,7 @@ end;
 
 
 calib_smoother(datafile='data_example',
-    first_obs=2, diffuse_filter,kalman_algo = 3,nobs =99) z y c a a_innovation yNE_innovation;
+    first_obs=2, diffuse_filter,kalman_algo = 4,nobs =99) z y c a a_innovation yNE_innovation;
 % 
 
 
