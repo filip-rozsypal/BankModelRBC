@@ -17,7 +17,7 @@ MODEL = 'rbc_v4b2.mod'; % full estiamted model
 
 
 
-DATA = 'DSGE_DATA_2025_10_30_v2.csv';
+DATA = 'DSGE_DATA_2025_10_30_v3.csv';
 
 run_dynare;
 
