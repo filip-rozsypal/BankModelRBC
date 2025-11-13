@@ -6,7 +6,11 @@
 set(0, 'DefaultFigureVisible', 'on');
 set(groot,'DefaultFigureWindowStyle','docked') ;
 clc;
-close all;
+
+for i_fig = 1:50
+    figure(i_fig);
+    close;
+end
 
 
 
@@ -29,12 +33,17 @@ cd(FOLDER.work); % move to the work directory
 % copy files
 source = [FOLDER.base,'/',DATA];
 destination = [FOLDER.work,'/',DATA];
-copyfile(source,destination);
+status = copyfile(source,destination);
+if status == 0
+    error('copying of ',source,' not successful');
+end
 
 source = [FOLDER.base,'/',MODEL];
 destination = [FOLDER.work,'/',MODEL];
 copyfile(source,destination);
-
+if status == 0
+    error('copying of ',source,' not successful');
+end
 
 eval(['dynare ',MODEL]); % run dynare
 
