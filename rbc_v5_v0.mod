@@ -178,7 +178,6 @@ estimated_params;
 
     stderr eps_yNE,  inv_gamma_pdf, 0.005, 0.002; 
 
-
     stderr yNE_noise,  inv_gamma_pdf, 0.005, 0.002; 
 
 end;
@@ -196,7 +195,15 @@ shock_decomposition(diffuse_filter) z a
     y c k i l  ;
 
 %%
-% check that z follows the AR1 law of motion
+%% testing law of motion
 figure(100)
+subplot(2,2,1)
+plot(oo_.SmoothedVariables.z);
+title('z')
+subplot(2,2,2)
+plot(oo_.SmoothedShocks.eps_z)
+title('eps\_z')
+subplot(2,1,2)
 plot([oo_.SmoothedVariables.z(2:end), ...
-   rho_z*oo_.SmoothedVariables.z(1:end-1)+oo_.SmoothedShocks.eps_z(2:end)])
+    rho_z*oo_.SmoothedVariables.z(1:end-1)+oo_.SmoothedShocks.eps_z(2:end)])
+title('v5\_v0 law of motion test')

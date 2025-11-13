@@ -2,7 +2,7 @@
 % data in levels
 
 
-close all;
+% close all;
 
 %----------------------------------------------------------------
 % 1. Defining variables
@@ -340,11 +340,19 @@ estimation(datafile='DSGE_DATA_2025_10_30_v2', mode_compute=5,
 
 %emp_hours_obs  log_c_q_obs
 
-figure(100)
-plot(oo_.SmoothedVariables.z);
-figure(101)
-plot(oo_.SmoothedShocks.eps_z)
 
+
+%% testing law of motion
+figure(102)
+subplot(2,2,1)
+plot(oo_.SmoothedVariables.z);
+title('z')
+
+subplot(2,2,2)
+plot(oo_.SmoothedShocks.eps_z)
+title('eps\_z')
+
+subplot(2,1,2)
 plot([oo_.SmoothedVariables.z(2:end), ...
-    0.8*oo_.SmoothedVariables.z(1:end-1)+oo_.SmoothedShocks.eps_z(2:end),... 
-    oo_.SmoothedShocks.eps_z(2:end)])
+    rho_z*oo_.SmoothedVariables.z(1:end-1)+oo_.SmoothedShocks.eps_z(2:end)])
+title('v4b2 law of motion test')
