@@ -23,10 +23,6 @@ parameters rho_yNE rho_iNE rho_lX rho_cNE;
 parameters exo_gr_yNE exo_gr_iNE exo_gr_cNE exo_lX;
 options_.debug=1;
 
-% observation_trends;
-%     dY_obs(exo_gr_a);
-% end;
-
 %----------------------------------------------------------------
 % 2. Calibration
 %----------------------------------------------------------------
@@ -107,13 +103,13 @@ model;
 
 
     [name = 'unexplained y']
-    yNE = (1-rho_yNE) * exo_gr_yNE  + rho_yNE * yNE(-1) + eps_yNE;
+    yNE = (1-rho_yNE) * exo_gr_yNE  + rho_yNE * yNE(-1) + (eps_yNE - eps_yNE(-1));
 
     [name = 'unexplained i']
-    iNE = (1-rho_iNE) * exo_gr_iNE  + rho_iNE * iNE(-1) + eps_iNE;
+    iNE = (1-rho_iNE) * exo_gr_iNE  + rho_iNE * iNE(-1) + (eps_iNE - eps_iNE(-1));
 
     [name = 'unexplained c']
-    cNE = (1-rho_cNE) * exo_gr_cNE  + rho_cNE * cNE(-1) + eps_cNE;    
+    cNE = (1-rho_cNE) * exo_gr_cNE  + rho_cNE * cNE(-1) + (eps_cNE - eps_cNE(-1));    
 
     [name = 'unexplained l']
     lX = (1-rho_lX) * exo_lX  + rho_lX * lX(-1) + eps_lX;
@@ -240,7 +236,7 @@ end;
 
 estimation(datafile='DSGE_data', mode_compute=5,
     first_obs=2, diffuse_filter,
-    optim=('TolFun',1e-5), irf=0,nobs =99,mh_replic = 30000) y i c yNE iNE cNE;
+    optim=('TolFun',1e-5), irf=0,nobs =99,mh_replic = 150000) y i c yNE iNE cNE;
 shock_decomposition d_y_obs d_c_obs d_i_obs l_obs y c i l;
 
 %----------------------------------------------------------------

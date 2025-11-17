@@ -46,10 +46,10 @@ sigma   = (0.007/(1-alpha));
 % employment 0.0015 14.92/14.78/100 = 0.01
 % investment 0.0064         6.1/5.5/100 = 0.0111
 % consumption 0.0040
-% 0.0039 mean(diff(oo_.SmoothedVariables.log_y_q_obs))
-% 0.0062 mean(diff(oo_.SmoothedVariables.log_i_q_obs))
-% 0.0039 mean(diff(oo_.SmoothedVariables.log_c_q_obs))
-% 0.0014 mean(diff(oo_.SmoothedVariables.log_emp_heads_obs))
+% 0.003927633588236 mean(diff(oo_.SmoothedVariables.log_y_q_obs))
+% 0.006190787709659 mean(diff(oo_.SmoothedVariables.log_i_q_obs))
+% 0.003896204059348 mean(diff(oo_.SmoothedVariables.log_c_q_obs))
+% 0.001411186697311 mean(diff(oo_.SmoothedVariables.log_emp_heads_obs))
 aa = 0.00403679164929413;
 ii = 0.00564851251415636 ;
 
@@ -221,16 +221,6 @@ steady_state_model;
 
 end;
 
-% % Initial values
-histval;
-% %     a(0) = -30;
-% %     yNE(0) = 0;
-%     k(-1) = 8;
-    z(0)=0;
-        z(-1)=0;
-% %     l(0)=0.33;
-end;
-
 steady(nocheck);
 % steady;
 resid; 
@@ -309,10 +299,10 @@ estimated_params;
     stderr cNE_noise,  inv_gamma_pdf, 0.001, 0.002; 
 
  
-    yNE_start, NORMAL_PDF, 6.4,0.25;
-    cNE_start, NORMAL_PDF, 5.9,0.25;
-    iNE_start, NORMAL_PDF, 5.5,0.25; 
-    lNE_start, NORMAL_PDF, 14.4,0.25; 
+    % yNE_start, NORMAL_PDF, 6.4,0.25;
+    % cNE_start, NORMAL_PDF, 5.9,0.25;
+    % iNE_start, NORMAL_PDF, 5.5,0.25; 
+    % lNE_start, NORMAL_PDF, 14.4,0.25; 
     % a_start, NORMAL_PDF, 1,1;  
 
 
@@ -327,7 +317,7 @@ end;
 % 
 
 estimation(datafile='DSGE_DATA_2025_10_30_v2', mode_compute=5,
-    first_obs=1, diffuse_filter, kalman_algo = 4,mh_nblocks = 1, mh_replic = 15000,
+    first_obs=1, diffuse_filter, kalman_algo = 4,mh_nblocks = 1, mh_replic = 150000,
     optim=('TolFun',1e-7), irf=16,nobs = 99) y z c k a a_innovation;
 % 
     shock_decomposition(diffuse_filter) z a 
