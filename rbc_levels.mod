@@ -13,7 +13,7 @@ var yNE  cNE iNE lNE; %
 var l mu y c k i a z; % 
 var a_innovation lNE_innovation iNE_innovation yNE_innovation cNE_innovation;
 
-varexo eps_a    eps_z;  %     eps_i 
+varexo eps_a eps_z eps_i;  %      
 varexo eps_yNE  eps_cNE  eps_iNE eps_lNE; %l_obs_ME  
 varexo iNE_noise lNE_noise yNE_noise cNE_noise;
 
@@ -64,10 +64,10 @@ rho_a = 0.7;
 rho_z = 0.8;
 
 
-yNE_start = 6.4061; %log(1616.655276)-0.982;
-cNE_start = 5.8755; %log(751.059164)-0.746;
-iNE_start = 5.4744; %log(238.502500921713);
-lNE_start = 14.5; %log(238.502500921713);
+yNE_start = 6.38; %log(1616.655276)-0.982;
+cNE_start = 5.85; %log(751.059164)-0.746;
+iNE_start = 5.23; %log(238.502500921713);
+lNE_start = 14.44; %log(238.502500921713);
 
 a_start = 10;
 
@@ -107,7 +107,7 @@ model;
     y = mu^(-alpha)*exp(z)*(k(-1)^alpha)*l^(1-alpha); %
     
     [name = 'investment']
-    i = k-(1-delta)*k(-1)/mu;   %exp(eps_i)*
+    i = exp(eps_i)*k-(1-delta)*k(-1)/mu;   %
 
     [name = 'persistent productivity process']
     z = rho_z*z(-1) + eps_z;   
@@ -123,16 +123,12 @@ model;
 
 
     %% NotExplained components' equations
-    % yNE = rho_yNE*yNE(-1) + eps_yNE;
-
-
     % cNE 
     [name = 'cNE innovation']
     cNE_innovation = (1-rho_cNE)*GR_cNE + rho_cNE*cNE_innovation(-1) + eps_cNE;
 
     [name = 'level_cNE']
     cNE = cNE(-1) + (1-rho_cNE)*GR_cNE + rho_cNE*cNE_innovation(-1) + eps_cNE;     
-
 
     % yNE 
     [name = 'yNE innovation']
@@ -234,8 +230,8 @@ shocks;
     var eps_z;
     stderr 0.02; 
 
-    % var eps_i;
-    % stderr 0.015;     
+    var eps_i;
+    stderr 0.025;     
 
     var yNE_noise;
     stderr 0.001;
@@ -285,18 +281,18 @@ estimated_params;
 
     stderr eps_z,    0.025,    inv_gamma_pdf, 0.005, 0.02; 
     stderr eps_a,    0.05,    inv_gamma_pdf, 0.005, 0.05; 
-    % stderr eps_i,    0.025,    inv_gamma_pdf, 0.00100, 0.01; 
+    stderr eps_i,    0.025,    inv_gamma_pdf, 0.00100, 0.01; 
 
-    stderr eps_yNE,  inv_gamma_pdf, 0.005, 0.002; 
-    stderr eps_cNE,  inv_gamma_pdf, 0.005, 0.002; 
-    stderr eps_iNE,  inv_gamma_pdf, 0.020, 0.02; 
-    stderr eps_lNE,  inv_gamma_pdf, 0.005, 0.001; 
+    stderr eps_yNE,  inv_gamma_pdf, 0.01, 0.02; 
+    stderr eps_cNE,  inv_gamma_pdf, 0.01, 0.02; 
+    stderr eps_iNE,  inv_gamma_pdf, 0.01, 0.02; 
+    stderr eps_lNE,  inv_gamma_pdf, 0.01, 0.02; 
 
 
-    stderr iNE_noise,  inv_gamma_pdf, 0.02, 0.025; 
-    stderr lNE_noise,  inv_gamma_pdf, 0.005, 0.002; 
-    stderr yNE_noise,  inv_gamma_pdf, 0.005, 0.002; 
-    stderr cNE_noise,  inv_gamma_pdf, 0.001, 0.002; 
+    stderr iNE_noise,  inv_gamma_pdf, 0.025, 0.1; 
+    stderr lNE_noise,  inv_gamma_pdf, 0.005, 0.01; 
+    stderr yNE_noise,  inv_gamma_pdf, 0.005, 0.01; 
+    stderr cNE_noise,  inv_gamma_pdf, 0.005, 0.01; 
 
  
     % yNE_start, NORMAL_PDF, 6.4,0.25;
