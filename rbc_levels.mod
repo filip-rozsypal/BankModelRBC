@@ -14,17 +14,15 @@ var l mu y c k i a z; %
 var a_innovation lNE_innovation iNE_innovation yNE_innovation cNE_innovation;
 
 varexo eps_a eps_z eps_i;  %      
-varexo eps_yNE  eps_cNE  eps_iNE eps_lNE; %l_obs_ME  
+varexo eps_yNE eps_cNE eps_iNE eps_lNE; %  
 varexo iNE_noise lNE_noise yNE_noise cNE_noise;
 
 varobs log_y_q_obs log_c_q_obs log_i_q_obs log_emp_heads_obs; %   
 
 
-
-
-parameters beta psi delta alpha sigma  rho_a  rho_z; %l_obs_const 
+parameters beta psi delta alpha sigma  rho_a  rho_z; % 
 parameters GR_a GR_l GR_iNE GR_yNE GR_cNE;
-parameters a_start   rho_yNE rho_cNE rho_iNE rho_lNE; %
+parameters a_start rho_yNE rho_cNE rho_iNE rho_lNE; %
 parameters cNE_start  yNE_start iNE_start lNE_start; %     
 
 options_.debug=1;
@@ -38,7 +36,6 @@ alpha   = 0.33;
 beta    = 0.99;
 delta   = 0.023;
 psi     = 1.75;
-
 sigma   = (0.007/(1-alpha));
 
 % growth rate in
@@ -54,35 +51,40 @@ aa = 0.00403679164929413;
 ii = 0.00564851251415636 ;
 
 
-GR_a     = 0.002;% 0.016/4;  %7.8/7.4/100 = 0.0105
-GR_l     = 0.0014; % 14.92/14.78/100 = 0.01
-GR_iNE     = ii - GR_a; %6.1/5.5/100 = 0.0111
-GR_yNE     = aa - GR_a; %6.1/5.5/100 = 0.0111
-GR_cNE     = aa - GR_a; %6.1/5.5/100 = 0.0111
+% GR_a     = 0.002;% 0.016/4;  %7.8/7.4/100 = 0.0105
+% GR_l     = 0.0014; % 14.92/14.78/100 = 0.01
+% GR_iNE     = ii - GR_a; %6.1/5.5/100 = 0.0111
+% GR_yNE     = aa - GR_a; %6.1/5.5/100 = 0.0111
+% GR_cNE     = aa - GR_a; %6.1/5.5/100 = 0.0111
 
-rho_a = 0.7;
-rho_z = 0.8;
+GR_a     = 0.0030;
+GR_l     = 0.0015; 
+GR_iNE   = 0.0034;
+GR_yNE   = 0.0010;
+GR_cNE   = 0.0010;
 
+rho_a = 0.8283;
+rho_z = 0.7499;
+
+rho_yNE = 0.7486;
+rho_cNE = 0.7487;
+rho_iNE = 0.7498;
+rho_lNE = 0.7309;
 
 yNE_start = 6.38; %log(1616.655276)-0.982;
-cNE_start = 5.85; %log(751.059164)-0.746;
+cNE_start = 5.86; %log(751.059164)-0.746;
 iNE_start = 5.23; %log(238.502500921713);
 lNE_start = 14.44; %log(238.502500921713);
 
 a_start = 10;
 
-rho_yNE = 0.9;
-rho_cNE = 0.9;
-rho_iNE = 0.9;
-rho_lNE = 0.9;
+
 
 
 
 %----------------------------------------------------------------
 % 3. Model
 %----------------------------------------------------------------
-% trend_component_model(model_name = toto, 
-%     eqtags = ['level_productivity'], targets = ['level_productivity']);
 
 observation_trends;
     log_y_q_obs(GR_a+GR_yNE);
@@ -92,8 +94,7 @@ observation_trends;
 end;
 
 model; 
-
-%% core model
+    %% core model
     [name = 'Euler']
     (1/c) = beta*(1/c(+1)/mu(+1))*(1-delta+alpha*y(+1)*mu(+1)/k);
     
@@ -120,7 +121,6 @@ model;
 
     [name = 'level_productivity_gr']
     log(mu) = a_innovation;       
-
 
     %% NotExplained components' equations
     % cNE 
@@ -162,14 +162,8 @@ model;
     [name = 'obs: i']
     log_i_q_obs = i  + a + iNE + iNE_start + iNE_noise;     %
 
-
     % [name = 'obs: l']
     log_emp_heads_obs = l + lNE + lNE_start + lNE_noise; 
-
-
-
-
-
 end;
 
 
@@ -212,9 +206,6 @@ steady_state_model;
     log_i_q_obs = i+iNE_start;   
     log_emp_heads_obs = l + lNE_start;
 
-
-
-
 end;
 
 steady(nocheck);
@@ -223,76 +214,74 @@ resid;
 
 
 shocks;
-
     var eps_a;
-    stderr 0.02;
+    stderr 0.0027;
 
     var eps_z;
-    stderr 0.02; 
+    stderr 0.0024; 
 
     var eps_i;
-    stderr 0.025;     
+    stderr 0.0008;   
 
-    var yNE_noise;
-    stderr 0.001;
-
-    var iNE_noise;
-    stderr 0.001;
-
-    var lNE_noise;
-    stderr 0.001;    
-
+    %% NE components
+    % persistent
     var eps_yNE;
-    stderr 0.001;    
+    stderr 0.0030;    
 
     var eps_cNE;
-    stderr 0.001;
+    stderr 0.0036;
 
     var eps_iNE;
-    stderr 0.005;    
+    stderr 0.0121;    
 
     var eps_lNE;
-    stderr 0.002;  
+    stderr 0.0028;        
+    
+    % noise
+    var yNE_noise;
+    stderr 0.0038;
 
-  
-    % 
-    % var l_obs_ME;
-    % stderr 0.001;        
-  
+    var iNE_noise;
+    stderr 0.0438;
+
+    var lNE_noise;
+    stderr 0.0019;    
+
+    var cNE_noise;
+    stderr 0.0063;    
 end;
 
 
 estimated_params; 
 
-    % rho_z, NORMAL_PDF, 0.75, 0.01;
-    rho_a, 0.75, 0.4,0.9 , NORMAL_PDF, 0.85, 0.02;
+    rho_z, 0.7499, 0.4,0.9, NORMAL_PDF, 0.75, 0.01;
+    rho_a, 0.8283, 0.4,0.9, NORMAL_PDF, 0.85, 0.02;
 
-    rho_yNE, NORMAL_PDF, 0.75, 0.01;
-    rho_cNE, NORMAL_PDF, 0.75, 0.01;   
-    rho_iNE, NORMAL_PDF, 0.75, 0.01;  
+    rho_yNE, 0.7162, 0.4,0.9, NORMAL_PDF, 0.75, 0.1;
+    rho_cNE, 0.7173, 0.4,0.9, NORMAL_PDF, 0.75, 0.1;   
+    rho_iNE, 0.7434, 0.4,0.9, NORMAL_PDF, 0.75, 0.1;  
+    rho_lNE, 0.7309, 0.4,0.9, NORMAL_PDF, 0.75, 0.1;  
 
-    % GR_a,  NORMAL_PDF, 0.0030, 0.0005;
-    % GR_yNE,      NORMAL_PDF, 0.0010, 0.00025;
-    % GR_l, NORMAL_PDF, 0.0015, 0.0005;
-    % GR_iNE, NORMAL_PDF, 0.0034, 0.001;
-    % GR_cNE, NORMAL_PDF,  0.0010, 0.00025;
-
-    % l_obs_const, NORMAL_PDF, -0.335, 0.05;
+    GR_a,   0.0030,  NORMAL_PDF, 0.0030, 0.0005;
+    GR_yNE, 0.0010,  NORMAL_PDF, 0.0010, 0.00025;
+    GR_l,   0.0015,  NORMAL_PDF, 0.0015, 0.0005;
+    GR_iNE, 0.0034,  NORMAL_PDF, 0.0034, 0.001;
+    GR_cNE, 0.0010,  NORMAL_PDF, 0.0010, 0.00025;
 
     stderr eps_z,    0.025,    inv_gamma_pdf, 0.005, 0.02; 
-    stderr eps_a,    0.05,    inv_gamma_pdf, 0.005, 0.05; 
-    stderr eps_i,    0.025,    inv_gamma_pdf, 0.00100, 0.01; 
+    stderr eps_a,    0.050,    inv_gamma_pdf, 0.005, 0.05; 
+    stderr eps_i,    0.025,    inv_gamma_pdf, 0.001, 0.01; 
 
-    stderr eps_yNE,  inv_gamma_pdf, 0.01, 0.02; 
-    stderr eps_cNE,  inv_gamma_pdf, 0.01, 0.02; 
-    stderr eps_iNE,  inv_gamma_pdf, 0.01, 0.02; 
-    stderr eps_lNE,  inv_gamma_pdf, 0.01, 0.02; 
+    stderr eps_yNE,  inv_gamma_pdf, 0.01, 0.05; 
+    stderr eps_cNE,  inv_gamma_pdf, 0.01, 0.05; 
+    stderr eps_iNE,  inv_gamma_pdf, 0.01, 0.05; 
+    stderr eps_lNE,  inv_gamma_pdf, 0.01, 0.05; 
 
 
-    stderr iNE_noise,  inv_gamma_pdf, 0.025, 0.1; 
-    stderr lNE_noise,  inv_gamma_pdf, 0.005, 0.01; 
-    stderr yNE_noise,  inv_gamma_pdf, 0.005, 0.01; 
-    stderr cNE_noise,  inv_gamma_pdf, 0.005, 0.01; 
+    stderr iNE_noise,  inv_gamma_pdf, 0.025, 0.2; 
+    stderr lNE_noise,  inv_gamma_pdf, 0.005, 0.1; 
+    stderr yNE_noise,  inv_gamma_pdf, 0.005, 0.1; 
+    stderr cNE_noise,  inv_gamma_pdf, 0.005, 0.1; 
 
  
     % yNE_start, NORMAL_PDF, 6.4,0.25;
@@ -301,29 +290,23 @@ estimated_params;
     % lNE_start, NORMAL_PDF, 14.4,0.25; 
     % a_start, NORMAL_PDF, 1,1;  
 
-
-    
-
-
-    % stderr eps_i,    0.025,    inv_gamma_pdf, 0.02500, 0.01; 
-    % stderr noise_Y,    0.025,    inv_gamma_pdf, 0.02500, 0.01;     
+  
 end;
-% calib_smoother(datafile='DSGE_DATA_2025_10_30_v2',
-%     first_obs=2, diffuse_filter,nobs =99) y c a a_innovation;
-% 
+calib_smoother(datafile='DSGE_DATA_2025_10_30_v3',
+    diffuse_filter, kalman_algo = 4,nobs = 120) y c a a_innovation;
 
-estimation(datafile='DSGE_DATA_2025_10_30_v2', mode_compute=5,
-    first_obs=1, diffuse_filter, kalman_algo = 4,mh_nblocks = 1, mh_replic = 150000,
-    optim=('TolFun',1e-7), irf=16,nobs = 99) y z c k a a_innovation;
-% 
-    shock_decomposition(diffuse_filter) z a 
-        a_innovation lNE_innovation iNE_innovation yNE_innovation
-        log_y_q_obs log_c_q_obs log_emp_heads_obs log_i_q_obs  
-        yNE  cNE  iNE lNE
-        y c k i l  ;
 
-        stoch_simul(irf=8) z;
+% estimation(datafile='DSGE_DATA_2025_10_30_v2', mode_compute=5,
+%     first_obs=1, diffuse_filter, kalman_algo = 4, mh_nblocks = 3, mh_replic = 150000,
+%     optim=('TolFun',1e-7), irf=16,nobs = 99) y z c k a a_innovation;
+ 
+shock_decomposition(diffuse_filter) z a 
+    a_innovation lNE_innovation iNE_innovation yNE_innovation
+    log_y_q_obs log_c_q_obs log_emp_heads_obs log_i_q_obs  
+    yNE  cNE  iNE lNE
+    y c k i l  ;
 
+% stoch_simul(irf=8) z;
 %emp_hours_obs  log_c_q_obs
 
 

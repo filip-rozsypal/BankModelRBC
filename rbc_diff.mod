@@ -7,20 +7,19 @@ set(groot,'DefaultFigureWindowStyle','docked');
 % 1. Defining variables
 %----------------------------------------------------------------
 
-var l d_y_obs d_i_obs d_c_obs l_obs mu y c k i z a yNE iNE lX cNE;
+var d_log_y_q_obs d_log_c_q_obs d_log_i_q_obs d_log_emp_heads_obs;
+var l mu y c k i z a;
+var yNE iNE lNE cNE;
 
-varexo eps_a eps_i eps_z  ; 
-varexo eps_yNE eps_iNE eps_lX eps_cNE;
-varexo y_obs_noise i_obs_noise c_obs_noise l_obs_noise;
+varexo eps_a eps_z eps_i; 
+varexo eps_yNE eps_cNE eps_iNE eps_lNE;
+varexo yNE_noise cNE_noise iNE_noise lNE_noise;
 
+varobs d_log_y_q_obs d_log_c_q_obs d_log_i_q_obs d_log_emp_heads_obs;
 
-varobs d_y_obs d_i_obs d_c_obs l_obs;
-
-
-
-parameters beta psi delta alpha sigma exo_gr_a  rho_a rho_z l_obs_const;
-parameters rho_yNE rho_iNE rho_lX rho_cNE;
-parameters exo_gr_yNE exo_gr_iNE exo_gr_cNE exo_lX;
+parameters beta psi delta alpha sigma GR_a  rho_a rho_z;
+parameters rho_yNE rho_iNE rho_lNE rho_cNE;
+parameters GR_yNE GR_cNE GR_iNE  GR_lNE;
 options_.debug=1;
 
 %----------------------------------------------------------------
@@ -33,20 +32,20 @@ delta   = 0.023;
 psi     = 1.75;
 sigma   = (0.007/(1-alpha));
 
-exo_gr_a     = 0.02/4;
-exo_gr_yNE     = 0;
-exo_gr_iNE     = 0;
-exo_gr_cNE     = 0;
-exo_lX = 0;
+GR_a     = 0.0056;
 
-rho_a = 0.95;
-rho_z = 0.8;
-rho_yNE = 0.8;
-rho_iNE = 0.8;
-rho_lX = 0.9;
-rho_cNE = 0.9;
+GR_yNE = -0.0013;
+GR_iNE =  0.0041;
+GR_cNE = -0.0010;
+GR_lNE =  0.0014;
 
-l_obs_const = 0.335;
+rho_a   = 0.7857;
+rho_z   = 0.8551;
+rho_yNE = 0.8368;
+rho_iNE = 0.8307;
+rho_lNE = 0.8363;
+rho_cNE = 0.8337;
+
 
 
 
@@ -58,8 +57,6 @@ l_obs_const = 0.335;
 
 
 model; 
-
-
     [name = 'Euler']
     (1/c) = beta*(1/c(+1)/mu(+1))*(1-delta+alpha*y(+1)*mu(+1)/k);
     
@@ -82,46 +79,41 @@ model;
     log(mu) = a;
 
     [name = 'a']
-    a = (1-rho_a) * exo_gr_a + rho_a*a(-1) + eps_a;    
-    
+    a = (1-rho_a) * GR_a + rho_a*a(-1) + eps_a;    
 
+ 
+    %% NotExplained components' equations
+    [name = 'unexplained y']
+    yNE = (1-rho_yNE) * GR_yNE  + rho_yNE * yNE(-1) + eps_yNE;
 
+    [name = 'unexplained i']
+    iNE = (1-rho_iNE) * GR_iNE  + rho_iNE * iNE(-1) + eps_iNE;
+
+    [name = 'unexplained c']
+    cNE = (1-rho_cNE) * GR_cNE  + rho_cNE * cNE(-1) + eps_cNE;    
+
+    [name = 'unexplained l']
+    lNE = (1-rho_lNE) * GR_lNE  + rho_lNE * lNE(-1) + eps_lNE;
 
     %% observational equations
     [name = 'obs: y']
-    d_y_obs =  y - y(-1) + log(mu) + yNE-yNE(-1) + y_obs_noise; %d_y_obs_ME
+    d_log_y_q_obs = y - y(-1) + log(mu) + yNE + yNE_noise - yNE_noise(-1);
 
     [name = 'obs: c']
-    d_c_obs =  c - c(-1) + log(mu) + cNE-cNE(-1)+ c_obs_noise; %d_c_obs_ME;  
+    d_log_c_q_obs = c - c(-1) + log(mu) + cNE + cNE_noise - cNE_noise(-1);  
     
     [name = 'obs: i']
-    d_i_obs = i  - i(-1) + log(mu)  + iNE-iNE(-1)+ i_obs_noise; %d_i_obs_ME 
+    d_log_i_q_obs = i - i(-1) + log(mu) + iNE + iNE_noise - iNE_noise(-1); 
 
     [name = 'obs: l']
-    l_obs = -l_obs_const + l + lX+ l_obs_noise;    
-
-
-
-    [name = 'unexplained y']
-    yNE = (1-rho_yNE) * exo_gr_yNE  + rho_yNE * yNE(-1) + (eps_yNE - eps_yNE(-1));
-
-    [name = 'unexplained i']
-    iNE = (1-rho_iNE) * exo_gr_iNE  + rho_iNE * iNE(-1) + (eps_iNE - eps_iNE(-1));
-
-    [name = 'unexplained c']
-    cNE = (1-rho_cNE) * exo_gr_cNE  + rho_cNE * cNE(-1) + (eps_cNE - eps_cNE(-1));    
-
-    [name = 'unexplained l']
-    lX = (1-rho_lX) * exo_lX  + rho_lX * lX(-1) + eps_lX;
+    d_log_emp_heads_obs = l-l(-1) + lNE + lNE_noise - lNE_noise(-1);       
 
 
 end;
 
 
 steady_state_model;
-
-    mu_ss = exp(exo_gr_a);
-
+    mu_ss = exp(GR_a);
 
     l_over_k_ss = 1/mu_ss* (  (mu_ss-beta*(1-delta))/(alpha*beta) )^(1/(1-alpha));
 
@@ -137,25 +129,20 @@ steady_state_model;
     y = mu_ss^(-alpha)*k^alpha*l^(1-alpha); 
     c = y-i;
 
-
     z = 0;
-    a = exo_gr_a;
+    a = GR_a;
 
-    mu =  exp(exo_gr_a);
+    mu =  exp(GR_a);
 
-    d_y_obs = exo_gr_a + exo_gr_yNE;
-    d_c_obs = exo_gr_a + exo_gr_cNE;
-    d_i_obs = exo_gr_a + exo_gr_iNE;
+    d_log_y_q_obs = GR_a + GR_yNE;
+    d_log_c_q_obs = GR_a + GR_cNE;
+    d_log_i_q_obs = GR_a + GR_iNE;
+    d_log_emp_heads_obs =  GR_lNE;
 
-    l_obs = -l_obs_const + l;
-
-    yNE = exo_gr_yNE;
-    iNE = exo_gr_iNE;
-    iNE = exo_gr_cNE;
-    lX = exo_lX;
-    cNE = exo_gr_cNE;
-
-
+    yNE = GR_yNE;
+    cNE = GR_cNE;    
+    iNE = GR_iNE;
+    lNE = GR_lNE;
 end;
 
 
@@ -164,80 +151,83 @@ end;
 steady;
 resid; 
 shocks;
-
     var eps_a;
-    stderr 0.002;
-
- 
+    stderr 0.0029;
 
     var eps_z;
-    stderr 0.05; 
+    stderr 0.0046; 
 
     var eps_i;
-    stderr 0.015;      
-
-    var y_obs_noise;
-    stderr 0.001;  
-
-    var i_obs_noise;
-    stderr 0.015;  
-
-    var c_obs_noise;
-    stderr 0.001;  
-
-    var l_obs_noise;
-    stderr 0.02;      
-
+    stderr 0.0045;  
+  
+    %% NE compomenents
+    % AR1 component
     var eps_yNE;
-    stderr 0.001;    
+    stderr 0.0027;    
 
     var eps_iNE;
-    stderr 0.002; 
+    stderr 0.0154;  
 
-    var eps_lX;
-    stderr 0.002;  
+    var eps_lNE;
+    stderr 0.0026;   
 
     var eps_cNE;
-    stderr 0.001;        
- 
-    
+    stderr 0.0032;   
+
+    % noise
+    var yNE_noise;
+    stderr 0.0025;  
+
+    var iNE_noise;
+    stderr 0.0422;  
+
+    var cNE_noise;
+    stderr 0.0062;  
+
+    var lNE_noise;
+    stderr 0.0021;      
 end;
 
 estimated_params; 
 
-    rho_z,  NORMAL_PDF, 0.85, 0.01;
-    rho_a,  NORMAL_PDF, 0.85, 0.01;
-    rho_yNE, NORMAL_PDF, 0.85, 0.01;
-    rho_iNE, NORMAL_PDF, 0.85, 0.01;
-    rho_lX, NORMAL_PDF, 0.85, 0.01;
-    rho_cNE, NORMAL_PDF, 0.85, 0.01;    
+    rho_z,  NORMAL_PDF, 0.85, 0.015;
+    rho_a,  NORMAL_PDF, 0.85, 0.05;
 
-    exo_gr_a,   NORMAL_PDF, 0.02/4, 0.001;
-    exo_gr_yNE,  NORMAL_PDF, 0, 0.005;
-    exo_gr_iNE,  NORMAL_PDF, 0, 0.005;
-    exo_lX,     NORMAL_PDF, 0, 0.01;    
-    exo_gr_cNE,  NORMAL_PDF, 0, 0.005;    
+    rho_yNE, NORMAL_PDF, 0.85, 0.03;
+    rho_iNE, NORMAL_PDF, 0.85, 0.03;
+    rho_lNE, NORMAL_PDF, 0.85, 0.03;
+    rho_cNE, NORMAL_PDF, 0.85, 0.03;    
 
+    GR_a,    NORMAL_PDF, 0.02/4, 0.002;
+    GR_yNE,  NORMAL_PDF, 0, 0.005;
+    GR_iNE,  NORMAL_PDF, 0.005, 0.005;
+    GR_lNE,  NORMAL_PDF, 0.001, 0.01;    
+    GR_cNE,  NORMAL_PDF, 0, 0.005;    
 
-    l_obs_const, NORMAL_PDF, 0.335, 0.05;
-
-    stderr eps_z,  0.025,  inv_gamma_pdf, 0.02, 0.005; 
-    stderr eps_a,  0.025,  inv_gamma_pdf, 0.005, 0.005; 
+    stderr eps_z,  0.025,  inv_gamma_pdf, 0.02, 0.025; 
+    stderr eps_a,  0.025,  inv_gamma_pdf, 0.005, 0.01; 
     stderr eps_i,  0.025,  inv_gamma_pdf, 0.01, 0.01; 
 
-    % stderr eps_yNE, 0.025,  inv_gamma_pdf, 0.0100, 0.1;  
-    % stderr eps_iNE, 0.025,  inv_gamma_pdf, 0.0500, 0.5;
-    % stderr eps_lX, 0.005,  inv_gamma_pdf, 0.0100, 0.1;    
-    % stderr eps_cNE, 0.010,  inv_gamma_pdf, 0.0100, 0.1;       
+    stderr eps_yNE, 0.025,  inv_gamma_pdf, 0.0100, 0.1;  
+    stderr eps_iNE, 0.025,  inv_gamma_pdf, 0.0500, 0.5;
+    stderr eps_lNE, 0.005,  inv_gamma_pdf, 0.0100, 0.1;    
+    stderr eps_cNE, 0.010,  inv_gamma_pdf, 0.0100, 0.1;     
+
+    stderr iNE_noise,  inv_gamma_pdf, 0.025, 0.2; 
+    stderr lNE_noise,  inv_gamma_pdf, 0.005, 0.1; 
+    stderr yNE_noise,  inv_gamma_pdf, 0.005, 0.1; 
+    stderr cNE_noise,  inv_gamma_pdf, 0.005, 0.1;     
 
 end;
-% calib_smoother(datafile='DSGE_DATA_2025_09_25_v3.csv',diffuse_filter,first_obs=2) dY_obs y c l;
+% calib_smoother(datafile='DSGE_DATA_2025_10_30_v3.csv',diffuse_filter,first_obs=2) dY_obs y c l;
 
 
-estimation(datafile='DSGE_data', mode_compute=5,
+estimation(datafile='DSGE_DATA_2025_10_30_v3', mode_compute=5,
     first_obs=2, diffuse_filter,
     optim=('TolFun',1e-5), irf=0,nobs =99,mh_replic = 150000) y i c yNE iNE cNE;
-shock_decomposition d_y_obs d_c_obs d_i_obs l_obs y c i l;
+shock_decomposition d_log_y_q_obs d_log_c_q_obs d_log_i_q_obs d_log_emp_heads_obs 
+    z a y c k i l
+    yNE  cNE  iNE lNE;
 
 %----------------------------------------------------------------
 % 5. Some Results
