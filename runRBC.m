@@ -21,7 +21,23 @@ MODEL = 'rbc_diff.mod'; % RBC estimated on 1st differences
 DATA = 'DSGE_DATA_2025_10_30_v3.csv';
 
 %% run the code
+MODEL = 'rbc_diff.mod'; % RBC estimated on 1st differences
 run_dynare;
+RES.dif.oo_ = oo_;
+RES.dif.M_ = M_;
+
+MODEL = 'rbc_levels.mod'; % RBC estimated on 1st differences
+run_dynare;
+RES.lev.oo_ = oo_;
+RES.lev.M_ = M_;
+
+%%
+figure(1)
+plot([RES.dif.oo_.SmoothedVariables.y RES.lev.oo_.SmoothedVariables.y])
+
+
+
+
 
 
 

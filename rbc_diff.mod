@@ -219,12 +219,12 @@ estimated_params;
     stderr cNE_noise,  inv_gamma_pdf, 0.005, 0.1;     
 
 end;
-% calib_smoother(datafile='DSGE_DATA_2025_10_30_v3.csv',diffuse_filter,first_obs=2) dY_obs y c l;
+calib_smoother(datafile='DSGE_DATA_2025_10_30_v3.csv',diffuse_filter,nobs = 120) y c a;
 
-
-estimation(datafile='DSGE_DATA_2025_10_30_v3', mode_compute=5,
-    first_obs=2, diffuse_filter,
-    optim=('TolFun',1e-5), irf=0,nobs =99,mh_replic = 150000) y i c yNE iNE cNE;
+% 
+% estimation(datafile='DSGE_DATA_2025_10_30_v3', mode_compute=5,
+%     first_obs=2, diffuse_filter,
+%     optim=('TolFun',1e-5), irf=0,nobs =99,mh_replic = 150000) y i c yNE iNE cNE;
 shock_decomposition d_log_y_q_obs d_log_c_q_obs d_log_i_q_obs d_log_emp_heads_obs 
     z a y c k i l
     yNE  cNE  iNE lNE;
