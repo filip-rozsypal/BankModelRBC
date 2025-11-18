@@ -16,7 +16,8 @@ MODEL = 'rbc_v4b2.mod'; % full estimated model
 
 
 DATA = 'DSGE_DATA_2025_10_30_v3.csv';
-
+%%
+trends;
 %% run the code
 run_dynare;
 
