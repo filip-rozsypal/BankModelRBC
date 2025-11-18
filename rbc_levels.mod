@@ -9,13 +9,14 @@
 %----------------------------------------------------------------
 
 var log_y_q_obs  log_c_q_obs log_i_q_obs log_emp_heads_obs; %    
-var yNE  cNE iNE lNE; %  
 var l mu y c k i a z; % 
+var yNE cNE iNE lNE ;
+
 var a_innovation lNE_innovation iNE_innovation yNE_innovation cNE_innovation;
 
-varexo eps_a eps_z eps_i;  %      
-varexo eps_yNE eps_cNE eps_iNE eps_lNE; %  
-varexo iNE_noise lNE_noise yNE_noise cNE_noise;
+varexo eps_a eps_z eps_i; 
+varexo eps_yNE eps_cNE eps_iNE eps_lNE;
+varexo yNE_noise cNE_noise iNE_noise lNE_noise;
 
 varobs log_y_q_obs log_c_q_obs log_i_q_obs log_emp_heads_obs; %   
 
@@ -306,8 +307,8 @@ shock_decomposition(diffuse_filter) z a
     yNE  cNE  iNE lNE
     y c k i l  ;
 
-% stoch_simul(irf=8) z;
-%emp_hours_obs  log_c_q_obs
+stoch_simul(periods=0,conditional_variance_decomposition = [1 5 16],irf=0); 
+
 
 
 

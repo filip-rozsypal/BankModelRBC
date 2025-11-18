@@ -8,8 +8,8 @@ set(groot,'DefaultFigureWindowStyle','docked');
 %----------------------------------------------------------------
 
 var d_log_y_q_obs d_log_c_q_obs d_log_i_q_obs d_log_emp_heads_obs;
-var l mu y c k i z a;
-var yNE iNE lNE cNE;
+var l mu y c k i a z; % 
+var yNE cNE iNE lNE ;
 
 varexo eps_a eps_z eps_i; 
 varexo eps_yNE eps_cNE eps_iNE eps_lNE;
@@ -229,6 +229,8 @@ calib_smoother(datafile='DSGE_DATA_2025_10_30_v3.csv',diffuse_filter,nobs = 120)
 shock_decomposition d_log_y_q_obs d_log_c_q_obs d_log_i_q_obs d_log_emp_heads_obs 
     z a y c k i l
     yNE  cNE  iNE lNE;
+
+stoch_simul(periods=0,conditional_variance_decomposition = [1 5 16],irf=0);     
 
 %----------------------------------------------------------------
 % 5. Some Results

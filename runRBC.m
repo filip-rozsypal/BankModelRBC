@@ -31,9 +31,12 @@ run_dynare;
 RES.lev.oo_ = oo_;
 RES.lev.M_ = M_;
 
-%%
+%% compare the results
+run_comparison;
+close all;
 figure(1)
 plot([RES.dif.oo_.SmoothedVariables.y RES.lev.oo_.SmoothedVariables.y])
+legend('diff','levels');
 
 
 
