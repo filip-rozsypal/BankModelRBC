@@ -47,7 +47,7 @@ legend('log y','log c','log i','log (y_{eurozone}/1000)');
 legend('Location','southeast');
 
 name_graph = [FOLDER.work,'fig/trend_1_1.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -64,10 +64,10 @@ set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
 set(lines(4), 'linestyle',':');
 legend('log y','log c','log i','log y_{eurozone}/1000');
-legend('Location','southeast');
+legend('Location','NorthWest');
 
 name_graph = [FOLDER.work,'fig/trend_1_2.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 fig = figure(3)
@@ -86,7 +86,7 @@ legend('log y','log c','log i','log y_{eurozone}/1000');
 legend('Location','southeast');
 
 name_graph = [FOLDER.work,'fig/trend_1_3.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -103,10 +103,10 @@ grid on
 set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
 legend('log y','log x','log m');
-legend('Location','southeast');
+legend('Location','NorthWest');
 
 name_graph = [FOLDER.work,'fig/trend_2_1.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -121,11 +121,11 @@ axis([1 122 0.99 1.225]);
 grid on
 set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
-legend('log(y(t)/y(0))','log(x(t)/x(0))','log(m(t)/m(0))');
-legend('Location','southeast');
+legend('log y','log x','log m');
+legend('Location','NorthWest');
 
 name_graph = [FOLDER.work,'fig/trend_2_2.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 fig = figure(6)
@@ -139,11 +139,11 @@ axis([1 122 -0.25 0.25]);
 grid on
 set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
-legend('log(y(t)/y(t-1))','log(x(t)/x(t-1))','log(m(t)/m(t-1))');
+legend('log y','log x','log m');
 legend('Location','southeast');
 
 name_graph = [FOLDER.work,'fig/trend_2_3.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -163,7 +163,7 @@ legend('P_y','P_c','P_i');
 legend('Location','southeast');
 
 name_graph = [FOLDER.work,'fig/trend_3_1.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -179,10 +179,10 @@ grid on
 set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
 legend('P_y','P_c','P_i');
-legend('Location','southeast');
+legend('Location','NorthWest');
 
 name_graph = [FOLDER.work,'fig/trend_3_2.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 fig = figure(9)
@@ -200,7 +200,7 @@ legend('P_y','P_c','P_i');
 legend('Location','southeast');
 
 name_graph = [FOLDER.work,'fig/trend_3_3.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -217,11 +217,12 @@ axis([1 122 0.6 1.5]);
 grid on
 set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
+set(lines(4), 'linestyle',':');
 legend('P_y','P_x','P_m','P_{ea}');
 legend('Location','southeast');
 
 name_graph = [FOLDER.work,'fig/trend_4_1.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -235,11 +236,12 @@ axis([1 122 0.9 2]);
 grid on
 set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
+set(lines(4), 'linestyle',':');
 legend('P_y','P_x','P_m','P_{ea}');
-legend('Location','southeast');
+legend('Location','NorthWest');
 
 name_graph = [FOLDER.work,'fig/trend_4_2.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 fig = figure(12)
@@ -253,11 +255,12 @@ axis([1 122 -0.25 0.25]);
 grid on
 set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
+set(lines(4), 'linestyle',':');
 legend('P_y','P_x','P_m','P_{ea}');
 legend('Location','southeast');
 
 name_graph = [FOLDER.work,'fig/trend_4_3.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -278,7 +281,7 @@ legend('log(population)','log(prvt nonfarm hours)','log(prvt nonfarm heads)','lo
 legend('Location','east');
 
 name_graph = [FOLDER.work,'fig/trend_5_1.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -297,7 +300,7 @@ legend('log(population)','log(prvt nonfarm hours)','log(prvt nonfarm heads)','lo
 legend('Location','NorthWest');
 
 name_graph = [FOLDER.work,'fig/trend_5_2.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 fig = figure(15)
@@ -316,7 +319,7 @@ legend('log(population)','log(prvt nonfarm hours)','log(prvt nonfarm heads)','lo
 legend('Location','South');
 
 name_graph = [FOLDER.work,'fig/trend_5_3.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -341,7 +344,7 @@ legend('w man hourly','w prvt monthly','w prvt nonfarm hourly','P_y');
 legend('Location','southeast');
 
 name_graph = [FOLDER.work,'fig/trend_6_1.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -358,10 +361,10 @@ set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
 set(lines(4), 'linestyle',':');
 legend('w man hourly','w prvt monthly','w prvt nonfarm hourly','P_y');
-legend('Location','southeast');
+legend('Location','NorthWest');
 
 name_graph = [FOLDER.work,'fig/trend_6_2.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 fig = figure(18)
@@ -380,7 +383,7 @@ legend('w man hourly','w prvt monthly','w prvt nonfarm hourly','P_y');
 legend('Location','NorthWest');
 
 name_graph = [FOLDER.work,'fig/trend_6_3.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 %%
@@ -401,7 +404,7 @@ legend('Location','north');
 hline(0,'-k');
 
 name_graph = [FOLDER.work,'fig/trend_7_1.pdf'];
-figuresize(14,9,'centimeters');
+figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -420,7 +423,7 @@ print(fig,'-dpdf', '-r300', name_graph);
 % legend('Location','southeast');
 % 
 % name_graph = [FOLDER.work,'fig/trend_7_2.pdf'];
-% figuresize(14,9,'centimeters');
+% figuresize(21,13,'centimeters');
 % print(fig,'-dpdf', '-r300', name_graph);
 % 
 % fig = figure(21)
@@ -438,7 +441,7 @@ print(fig,'-dpdf', '-r300', name_graph);
 % legend('Location','southeast');
 % 
 % name_graph = [FOLDER.work,'fig/trend_7_3.pdf'];
-% figuresize(14,9,'centimeters');
+% figuresize(21,13,'centimeters');
 % print(fig,'-dpdf', '-r300', name_graph);
 
 
@@ -457,7 +460,7 @@ print(fig,'-dpdf', '-r300', name_graph);
 % legend('Location','southeast')
 % 
 % name_graph = [FOLDER.work,'fig/trend_pi.pdf'];
-% figuresize(14,9,'centimeters');
+% figuresize(21,13,'centimeters');
 % print(fig,'-dpdf', '-r300', name_graph);
 % 
 % fig = figure(3)
@@ -470,7 +473,7 @@ print(fig,'-dpdf', '-r300', name_graph);
 % legend('Location','northwest');
 % 
 % name_graph = [FOLDER.work,'fig/trend_l.pdf'];
-% figuresize(14,9,'centimeters');
+% figuresize(21,13,'centimeters');
 % print(fig,'-dpdf', '-r300', name_graph);
 % 
 % 
@@ -485,7 +488,7 @@ print(fig,'-dpdf', '-r300', name_graph);
 % legend('Location','northwest');
 % 
 % name_graph = [FOLDER.work,'fig/trend_XY.pdf'];
-% figuresize(14,9,'centimeters');
+% figuresize(21,13,'centimeters');
 % print(fig,'-dpdf', '-r300', name_graph);
 % 
 % 
@@ -511,5 +514,5 @@ print(fig,'-dpdf', '-r300', name_graph);
 % legend('Location','northeast');
 % 
 % name_graph = [FOLDER.work,'fig/trend_pi2.pdf'];
-% figuresize(14,9,'centimeters');
+% figuresize(21,13,'centimeters');
 % print(fig,'-dpdf', '-r300', name_graph);
