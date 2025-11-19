@@ -387,6 +387,53 @@ figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
 %%
+
+
+
+%%
+YY = [data.x_q_obs./data.y_q_obs,data.m_q_obs./data.y_q_obs,data.m_q_obs./data.x_q_obs];
+
+fig = figure(19)
+
+lines = plot(X,YY,'LineWidth',2);
+xticks(1:8:lX);
+xticklabels(data.date(1:8:lX))
+axis([1 122 0.2 1]);
+grid on
+set(lines(2), 'linestyle','--');
+set(lines(3), 'linestyle','-.');
+legend('x/y','m/y','m/x');
+legend('Location','NorthWest');
+
+name_graph = [FOLDER.work,'fig/trend_7_1.pdf'];
+figuresize(21,13,'centimeters');
+print(fig,'-dpdf', '-r300', name_graph);
+
+
+fig = figure(20)
+
+temp = [YY(:,1)/YY(1,1) YY(:,2)/YY(1,2) YY(:,3)/YY(1,3)]
+
+lines = plot(X,temp,'LineWidth',2);
+xticks(1:8:lX);
+xticklabels(data.date(1:8:lX))
+axis([1 122 0.95 2.4]);
+grid on
+set(lines(2), 'linestyle','--');
+set(lines(3), 'linestyle','-.');
+legend('x/y','m/y','m/x');
+legend('Location','NorthWest');
+
+name_graph = [FOLDER.work,'fig/trend_7_2.pdf'];
+figuresize(21,13,'centimeters');
+print(fig,'-dpdf', '-r300', name_graph);
+
+
+
+%%
+
+
+
 YY = [data.r_ea_obs/100,[NaN;NaN;NaN;NaN;data.y_p_ea_obs(5:end) - data.y_p_ea_obs(1:end-4)]];
 
 fig = figure(19)
