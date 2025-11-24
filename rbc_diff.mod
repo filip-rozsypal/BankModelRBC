@@ -17,7 +17,7 @@ varexo yNE_noise cNE_noise iNE_noise lNE_noise;
 
 varobs d_log_y_q_obs d_log_c_q_obs d_log_i_q_obs d_log_emp_heads_obs;
 
-parameters beta psi delta alpha sigma GR_a  rho_a rho_z;
+parameters beta psi delta alpha sigma GR_a rho_a rho_z;
 parameters rho_yNE rho_iNE rho_lNE rho_cNE;
 parameters GR_yNE GR_cNE GR_iNE  GR_lNE;
 options_.debug=1;
