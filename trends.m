@@ -1,4 +1,6 @@
+clear all;
 
+FOLDER.work = '/home/filip_r/Dropbox/policy/bank_model/dynare_testing/';
 % variables in DAG
 
 % Y_detrend
@@ -43,7 +45,7 @@ grid on
 set(lines(2), 'linestyle','--');
 set(lines(3), 'linestyle','-.');
 set(lines(4), 'linestyle',':');
-legend('log y','log c','log i','log (y_{eurozone}/1000)');
+legend('log y','log c','log i','log (y^{ea}/1000)');
 legend('Location','southeast');
 
 name_graph = [FOLDER.work,'fig/trend_1_1.pdf'];
@@ -436,7 +438,7 @@ print(fig,'-dpdf', '-r300', name_graph);
 
 YY = [data.r_ea_obs/100,[NaN;NaN;NaN;NaN;data.y_p_ea_obs(5:end) - data.y_p_ea_obs(1:end-4)]];
 
-fig = figure(19)
+fig = figure(21)
 
 lines = plot(X,YY,'LineWidth',2);
 xticks(1:8:lX);
@@ -450,7 +452,7 @@ legend('Location','north');
 
 hline(0,'-k');
 
-name_graph = [FOLDER.work,'fig/trend_7_1.pdf'];
+name_graph = [FOLDER.work,'fig/trend_8_1.pdf'];
 figuresize(21,13,'centimeters');
 print(fig,'-dpdf', '-r300', name_graph);
 
