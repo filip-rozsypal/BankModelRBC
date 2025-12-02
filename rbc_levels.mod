@@ -23,7 +23,7 @@ varobs log_y_q_obs log_c_q_obs log_i_q_obs log_emp_heads_obs; %
 
 parameters beta psi delta alpha sigma  rho_a  rho_z; % 
 parameters GR_a GR_l GR_iNE GR_yNE GR_cNE;
-parameters a_start rho_yNE rho_cNE rho_iNE rho_lNE; %
+parameters rho_yNE rho_cNE rho_iNE rho_lNE; %
 parameters cNE_start  yNE_start iNE_start lNE_start; %     
 
 options_.debug=1;
@@ -77,7 +77,7 @@ cNE_start = 5.86; %log(751.059164)-0.746;
 iNE_start = 5.23; %log(238.502500921713);
 lNE_start = 14.44; %log(238.502500921713);
 
-a_start = 10;
+
 
 
 
@@ -289,7 +289,7 @@ estimated_params;
     % cNE_start, NORMAL_PDF, 5.9,0.25;
     % iNE_start, NORMAL_PDF, 5.5,0.25; 
     % lNE_start, NORMAL_PDF, 14.4,0.25; 
-    % a_start, NORMAL_PDF, 1,1;  
+
 
   
 end;
